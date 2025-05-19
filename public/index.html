@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+    <p id="login-error" style="color: red;"></p>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // Simulated API call
+      fetch("http://localhost:3000/api/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ username, password })
+})
+
+      .then(res => res.json())
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem("authToken", data.token);
+          window.location.href = "todo.html";
+        } else {
+          document.getElementById("login-error").textContent = "Invalid credentials.";
+        }
+      })
+      .catch(() => {
+        document.getElementById("login-error").textContent = "Login failed. Try again.";
+      });
+    }
+  </script>
+</body>
+</html>
