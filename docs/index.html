@@ -20,28 +20,32 @@
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
 
-      // Simulated API call
-      fetch("http://localhost:3000/api/login", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({ username, password })
-})
-
-      .then(res => res.json())
+      // Use relative path (this works both locally and on Render)
+      fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      })
+      .then(async res => {
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Login failed");
+        }
+        return res.json();
+      })
       .then(data => {
         if (data.token) {
           localStorage.setItem("authToken", data.token);
           window.location.href = "todo.html";
-        } else {
-          document.getElementById("login-error").textContent = "Invalid credentials.";
         }
       })
-      .catch(() => {
-        document.getElementById("login-error").textContent = "Login failed. Try again.";
+      .catch((err) => {
+        document.getElementById("login-error").textContent = err.message || "Login failed. Try again.";
       });
     }
   </script>
 </body>
 </html>
+
