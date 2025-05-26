@@ -9,7 +9,9 @@ const PORT = 3000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'docs'))); // serve frontend files
+
+// Serve static files from docs (now one level up)
+app.use(express.static(path.join(__dirname)));
 
 // Dummy user
 const USER = {
@@ -30,7 +32,7 @@ app.post('/api/login', (req, res) => {
 
 // Serve index.html for root
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'docs', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {
