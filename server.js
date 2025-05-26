@@ -9,7 +9,7 @@ const PORT = 3000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public'))); // serve frontend files
+app.use(express.static(path.join(__dirname, 'todo-list-app'))); // serve frontend files
 
 // Dummy user
 const USER = {
@@ -30,7 +30,7 @@ app.post('/api/login', (req, res) => {
 
 // Serve index.html for root
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {
